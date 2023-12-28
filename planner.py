@@ -202,6 +202,36 @@ def main(size_population, jobs, machines, operations, lateness_matrix, generatio
     return population[0]
 
 
+def grapher(individual, duration_matrix):
+    """
+    Grafica el individuo
+    :param individual: individuo a graficar
+    :param duration_matrix: matriz de duracion [machine][operation] es igual a la matriz de tardanza
+    """
+    # Crear un rango de posiciones para las barras
+    posiciones = np.arange(len(individual[0]))
+
+    # Crear el gráfico de barras
+    fig, ax = plt.subplots()
+
+    # Dibujar las barras
+    for i in range(len(individual[0])):
+      machine = individual[0][i][1]
+      operation = individual[0][i][2]
+      duration = duration_matrix[machine-1][operation-1]
+      ax.bar([machine], [duration], 0.35, label=individual[0][i][0], color="#{:02x}{:02x}{:02x}".format(random.randint(0, 255), random.randint(0, 255), random.randint(0, 255)), bottom=[i])
+
+    # Añadir etiquetas, título y leyenda
+    ax.set_xticks(posiciones + 0.35 / 2)
+    ax.set_xticklabels(individual[0])
+    ax.set_xlabel('Maquinas')
+    ax.set_ylabel('Valores')
+    ax.set_title('Gráfico de Barras Superpuestas con Inicio y Fin Diferentes')
+    ax.legend()
+
+    # Mostrar el gráfico
+    plt.show()
+
 # Ejecutamos el algoritmo
 size_population = 100
 jobs = 3
@@ -211,3 +241,4 @@ lateness_matrix = [[3.5, 2, 0.5], [0, 1, 2], [0, 2, 4]]
 generations = 100
 best_individual = main(size_population, jobs, machines, operations, lateness_matrix, generations)
 print('Mejor individuo: ', best_individual)
+grapher(best_individual, lateness_matrix)

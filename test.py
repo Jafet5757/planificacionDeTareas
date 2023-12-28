@@ -1,6 +1,9 @@
 import matplotlib.pyplot as plt
 import numpy as np
 
+#input: [[['j1o1', 3, 1], ['j1o3', 1, 3], ['j2o2', 2, 2], ['j2o3', 1, 3], ['j3o3', 1, 3]], 2.5]
+# [job, machine, operation] = [tag, posicion, duration]
+
 # Datos de ejemplo
 categorias = ['A', 'B', 'C', 'D']
 inicio_valores1 = [1, 3, 2, 1]
