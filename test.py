@@ -1,37 +1,51 @@
-import matplotlib.pyplot as plt
-import numpy as np
+def actual_tardiness_matrix(individual, lateness_matrix, print_matrix=False):
+    """
+    Calcula la matriz de tardanza real de un individuo teniendo en cuenta las operaciones en paralelo
+    :param individual: individuo a evaluar
+    :param lateness_matrix: matriz de tardanza [machine][operation]
+    :return: matriz de tardanza real del individuo
+    """
+    #inicializamos una matriz[machine][row] llena de ceros
+    actual_lateness_matrix = [[0 for i in range(len(individual))] for j in range(len(lateness_matrix))]
+    #recorremos el individuo
+    for i in range(len(individual)):
+      #obtenemos la maquina del individuo
+      machine = individual[i][1]
+      #obtenemos la tarea del individuo (compuesta por las primeras 2 letras del primer elemento de la lista)
+      task = individual[i][0][:2]
+      #guardamos al individuo en la matriz de tardanza real, en su respectiva maquina y en la ultima fila
+      actual_lateness_matrix[machine-1][len(actual_lateness_matrix[machine-1])-1] = individual[i]
+      #iteramos buscando si la fila anterior tiene algo y la movemos hacia atras
+      for j in range(len(actual_lateness_matrix[machine-1])-1,0,-1):
+        #comprobamos que j no sea la ultima fila
+        if j > 0:
+          #si la fila anterior no tiene algo lo movemos hacia atras
+          if actual_lateness_matrix[machine-1][j-1] == 0:
+            same_task = False
+            #verificamos si en cualquier maquina de la fila anterior está la misma tarea
+            for k in range(len(actual_lateness_matrix)):
+              #si hay algo diferente de cero en la fila anterior
+              if actual_lateness_matrix[k][j-1] != 0:
+                #si la tarea es la misma
+                if actual_lateness_matrix[k][j-1][0][:2] == task:
+                  #si esta la misma tarea rompemos el for, no puede estar en la misma fila de la misma tarea
+                  same_task = True
+                  break
+            #si la tarea es la misma no movemos nada y terminamos la busqueda hacia atras
+            if same_task:
+              break
+            actual_lateness_matrix[machine-1][j-1] = actual_lateness_matrix[machine-1][j]
+            actual_lateness_matrix[machine-1][j] = 0
+          else:
+            #tiene algo, entonces salimos del for, está lo más atrás posible
+            break
+    #si se quiere imprimir la matriz de tardanza real
+    if print_matrix:
+      for i in range(len(actual_lateness_matrix)):
+        print(actual_lateness_matrix[i])
 
-#input: [[['j1o1', 3, 1], ['j1o3', 1, 3], ['j2o2', 2, 2], ['j2o3', 1, 3], ['j3o3', 1, 3]], 2.5]
-# [job, machine, operation] = [tag, posicion, duration]
+#Pruebas
+individual = [['j1o1', 2, 1], ['j1o3', 1, 3], ['j2o2', 3, 2], ['j2o3', 1, 3], ['j3o3', 1, 3]]
+lateness_matrix = [[3.5, 2, 0.5], [0, 1, 2], [0, 2, 4]]
 
-# Datos de ejemplo
-categorias = ['A', 'B', 'C', 'D']
-inicio_valores1 = [1, 3, 2, 1]
-fin_valores1 = [4, 7, 2, 5]
-inicio_valores2 = [5, 5, 1, 4]
-fin_valores2 = [6, 6, 3, 8]
-
-# Definir el ancho de las barras
-ancho_barra = 0.35
-
-# Crear un rango de posiciones para las barras
-posiciones = np.arange(len(categorias))
-
-# Crear el gráfico de barras
-fig, ax = plt.subplots()
-
-# Dibujar las barras
-barra1 = ax.bar(posiciones, fin_valores1, ancho_barra, label='Serie 1', color=(0.2, 0.4, 0.6, 0.7), bottom=inicio_valores1)
-barra2 = ax.bar(posiciones, fin_valores2, ancho_barra, label='Serie 2', color=(0.8, 0.2, 0.2, 0.7), bottom=inicio_valores2)
-barra3 = ax.bar([1], [2], ancho_barra, label='Serie 3', color='orange', bottom=[0])
-
-# Añadir etiquetas, título y leyenda
-ax.set_xticks(posiciones + ancho_barra / 2)
-ax.set_xticklabels(categorias)
-ax.set_xlabel('Categorías')
-ax.set_ylabel('Valores')
-ax.set_title('Gráfico de Barras Superpuestas con Inicio y Fin Diferentes')
-ax.legend()
-
-# Mostrar el gráfico
-plt.show()
+actual_tardiness_matrix(individual, lateness_matrix, True)
