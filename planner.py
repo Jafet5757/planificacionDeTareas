@@ -111,6 +111,7 @@ def actual_tardiness_matrix(individual, lateness_matrix, print_matrix=False):
             break
     #si se quiere imprimir la matriz de tardanza real
     if print_matrix:
+      print('\nMatriz real\n')
       for i in range(len(actual_lateness_matrix)):
         print(actual_lateness_matrix[i])
     return actual_lateness_matrix
@@ -233,7 +234,7 @@ def main(size_population, jobs, machines, operations, lateness_matrix, generatio
     """
     # Inicializamos las tazas
     machineRate = 0.1
-    orderRate = 0.2
+    orderRate = 0.1
     selectionRate = 0.85
 
     for g in range(generations):
@@ -310,7 +311,8 @@ jobs = 3
 machines = 3
 operations = [[1,3], [2,3], [3]]
 lateness_matrix = [[3.5, 2, 0.5], [0, 1, 2], [0, 2, 4]]
-generations = 100
+generations = 500
 best_individual = main(size_population, jobs, machines, operations, lateness_matrix, generations)
 print('Mejor individuo: ', best_individual)
 grapher(best_individual, lateness_matrix)
+actual_tardiness_matrix(best_individual[0], lateness_matrix, True)
