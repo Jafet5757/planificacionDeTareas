@@ -187,36 +187,44 @@ def create_child(p1,p2):
         child.append(sub_p1.pop(0))
     return child
 
-def mutation(population, machines, machineRate=0.1, orderRate=0.2):
+def mutation(population, machines, lateness_matrix, machineRate=0.1, orderRate=0.1):
     """
     Muta un individuo de la poblacion
     :param population: poblacion a mutar
+    :param machines: cantidad de maquinas
+    :param lateness_matrix: matriz de tardanza [machine][operation]
+    :param machineRate: taza de mutacion de maquinas
+    :param orderRate: taza de mutacion de orden
     :return: poblacion mutada
     """
 
     # Recorremos la poblacion para mutar las maquinas
     for i in range(len(population)):
-        # Verificamos si el individuo muta
-        if random.uniform(0, 1) <= machineRate:
-            # Obtenemos la posicion a mutar
-            pos = random.randint(0, len(population[i]) - 1)
+      # Verificamos si el individuo muta
+      if random.uniform(0, 1) <= machineRate:
+        # Obtenemos la posicion a mutar
+        pos = random.randint(0, len(population[i]) - 1)
 
-            # Obtenemos la nueva maquina
-            new_machine = random.randint(1, machines)
+        # Obtenemos la nueva maquina
+        new_machine = random.randint(1, machines)
 
-            # Cambiamos la maquina
-            population[i][pos][1] = new_machine
+        # Vemos en que maquina tiene mejor fitness
+        job = population[i][pos]
+
+        # vemos que maquina tiene menor tardanza
+        if lateness_matrix[job[1]-1][job[2]-1] > lateness_matrix[new_machine-1][job[2]-1]:
+          population[i][pos][1] = new_machine
 
     # Recorremos la poblacion, esta vez para mutar el orden
     for i in range(len(population)):
-        # Verificamos si el individuo muta
-        if random.uniform(0, 1) <= orderRate:
-            # Obtenemos las posiciones a mutar
-            pos1 = random.randint(0, len(population[i]) - 1)
-            pos2 = random.randint(0, len(population[i]) - 1)
+      # Verificamos si el individuo muta
+      if random.uniform(0, 1) <= orderRate:
+        # Obtenemos las posiciones a mutar
+        pos1 = random.randint(0, len(population[i]) - 1)
+        pos2 = random.randint(0, len(population[i]) - 1)
 
-            # Cambiamos el orden
-            population[i][pos1], population[i][pos2] = population[i][pos2], population[i][pos1]
+        # Cambiamos el orden
+        population[i][pos1], population[i][pos2] = population[i][pos2], population[i][pos1]
 
     return population
 
@@ -233,9 +241,9 @@ def main(size_population, jobs, machines, operations, lateness_matrix, generatio
     :return: mejor individuo
     """
     # Inicializamos las tazas
-    machineRate = 0.1
-    orderRate = 0.1
-    selectionRate = 0.85
+    machineRate = 0.2
+    orderRate = 0.025
+    selectionRate = 0.90
 
     for g in range(generations):
       # Inicializamos la poblacion
@@ -253,7 +261,7 @@ def main(size_population, jobs, machines, operations, lateness_matrix, generatio
       new_population = order_crossover(parents)
 
       # mutamos la poblacion
-      new_population = mutation(new_population, machines, machineRate, orderRate)
+      new_population = mutation(new_population, machines, lateness_matrix, machineRate, orderRate)
 
       # calculamos el fitness de cada individuo en la nueva poblacion
       for i in range(len(new_population)):
