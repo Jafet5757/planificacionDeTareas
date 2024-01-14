@@ -245,14 +245,15 @@ def main(size_population, jobs, machines, operations, lateness_matrix, generatio
     orderRate = 0.025
     selectionRate = 0.90
 
-    for g in range(generations):
-      # Inicializamos la poblacion
-      population = init_population(size_population, jobs, machines, operations)
+    # Inicializamos la poblacion
+    population = init_population(size_population, jobs, machines, operations)
 
-      # calculamos el fitness de cada individuo
-      for i in range(len(population)):
-        #agregamos el fitness a cada individuo
-        population[i] = [population[i], fitness(population[i], lateness_matrix)]
+    # calculamos el fitness de cada individuo
+    for i in range(len(population)):
+      #agregamos el fitness a cada individuo
+      population[i] = [population[i], fitness(population[i], lateness_matrix)]
+
+    for g in range(generations):
 
       # seleccionamos los padres
       parents = selection_by_tournament(population, selectionRate)
@@ -319,7 +320,7 @@ jobs = 3
 machines = 3
 operations = [[1,3], [2,3], [3]]
 lateness_matrix = [[3.5, 2, 0.5], [0, 1, 2], [0, 2, 4]]
-generations = 500
+generations = 300
 best_individual = main(size_population, jobs, machines, operations, lateness_matrix, generations)
 print('Mejor individuo: ', best_individual)
 grapher(best_individual, lateness_matrix)
