@@ -1,4 +1,5 @@
 const generateDataButton = document.getElementById('generateData-btn');
+const startButton = document.getElementById('start-btn');
 const operations = [];
 const lateness_matrix = [];
 
@@ -69,3 +70,26 @@ const printData = (operations, lateness_matrix) => {
     latenessTable.innerHTML += `<tr><td>M${i + 1}</td>${tr.innerHTML}</tr>`;
   });
 }
+
+startButton.addEventListener('click', () => { 
+  // Hacemos una petición fetch a la ruta /start
+  fetch('/start', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({
+      operations,
+      lateness_matrix,
+      machines: lateness_matrix.length,
+      jobs: operations.length
+    })
+  })
+    .then(res => res.json())
+    .then(res => {
+      console.log(res);
+      const result = document.getElementById('result');
+      result.value = res.result;
+    })
+    .catch(err => console.log(err));
+})

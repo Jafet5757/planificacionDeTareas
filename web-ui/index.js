@@ -3,6 +3,7 @@ const app = express();
 const path = require('path');
 const ejs = require('ejs');
 const morgan = require('morgan');
+const pythonConnection = require('./pythonConnection');
 const port = 3000;
 
 // Configuracion de las vistas
@@ -20,6 +21,16 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.get('/', (req, res) => {
   res.render('index');
 });
+
+app.post('/start', (req, res) => { 
+  const { operations, lateness_matrix, machines, jobs } = req.body;
+  pythonConnection.start(operations, lateness_matrix, machines, jobs)
+    .then(result => {
+      console.log(result);
+      res.json({ result });
+    })
+    .catch(err => console.log(err));
+})
 
 app.listen(port, () => {
   console.log(`Servidor Express escuchando en el puerto ${port}`);
