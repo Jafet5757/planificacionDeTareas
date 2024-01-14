@@ -319,9 +319,9 @@ size_population = 100
 jobs = 3
 machines = 3
 operations = [[1,3], [2,3], [3]]
-lateness_matrix = [[3.5, 2, 0.5], [0, 1, 2], [0, 2, 4]]
+lateness_matrix = [[3.5, 2, 0.5], [10, 1, 2], [0.2, 2, 4]]
 generations = 300
 best_individual = main(size_population, jobs, machines, operations, lateness_matrix, generations)
 print('Mejor individuo: ', best_individual)
-grapher(best_individual, lateness_matrix)
+#grapher(best_individual, lateness_matrix)
 actual_tardiness_matrix(best_individual[0], lateness_matrix, True)
