@@ -318,8 +318,43 @@ def grapher(individual, duration_matrix):
 size_population = 100
 jobs = 3
 machines = 3
-operations = [[1,3], [2,3], [3]]
-lateness_matrix = [[3.5, 2, 0.5], [10, 1, 2], [0.2, 2, 4]]
+operations = [
+    [
+        7,
+        2,
+        8,
+        3
+    ],
+    [
+        6,
+        5,
+        8
+    ],
+    [
+        1,
+        2,
+        3,
+        6,
+        4
+    ]
+]
+lateness_matrix = [
+    [
+        5.59,
+        8.80,
+        3.00
+    ],
+    [
+        3.20,
+        9.49,
+        5.90
+    ],
+    [
+        3.59,
+        6.16,
+        2.00
+    ]
+]
 generations = 300
 best_individual = main(size_population, jobs, machines, operations, lateness_matrix, generations)
 print('Mejor individuo: ', best_individual)

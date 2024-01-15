@@ -26,7 +26,7 @@ generateDataButton.addEventListener('click', () => {
   //Generamos la matriz de tardanza
   for (let i = 0; i< machines; i++) {
     lateness_matrix.push([]);
-    for (let j = 0; j < tasks; j++) {
+    for (let j = 0; j < numberOfOperations; j++) {
       //Generamos un numero de tardanza aleatorio entre 0 y 10 redondeado a 2 decimales
       lateness_matrix[i].push((Math.random() * 10).toFixed(2));
     }
