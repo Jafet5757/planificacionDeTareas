@@ -113,6 +113,52 @@
     </div>
   </div>
 
+
+  <!-- Grafica del horario -->
+  <div class="card px-5 py-4 my-5">
+    <div class="row">
+      <div class="col-md text-center">
+        <h2>Horario</h2>
+        <textarea name="" id="actual_matrix" cols="30" rows="5" class="form-control"></textarea>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md">
+        <div id="">
+          <table id="chart" class="table table-bordered my-2"></table>
+        </div>
+        <button class="btn btn-outline-success my-3" id="generateGraph-btn">Generar gráfico</button>
+      </div>
+    </div>
 </div>
+
+  <!-- Generamos reporte de tiempos -->
+  <div class="card px-5 py-4 my-5">
+    <div class="row">
+      <div class="col-md text-center">
+        <h2>Reporte de tiempos</h2>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md">
+        <table class="table table-bordered">
+          <thead>
+            <th>Maquina</th>
+            <th>Operacion</th>
+            <th>Tiempo inicial</th>
+            <th>Tiempo final</th>
+          </thead>
+          <tbody id="times-table">
+            <tr>
+              <td>Maquina 1</td>
+              <td>10</td>
+              <td>20</td>
+              <td>30</td>
+            </tr>
+          </tbody>
+        </table>
+        <button class="btn btn-outline-success my-3" id="generateTimes-btn">Generar reporte</button>
+      </div>
+    </div>
 <script src="/js/principal.js"></script>
 <%- include('./partials/_footer.ejs') %>
