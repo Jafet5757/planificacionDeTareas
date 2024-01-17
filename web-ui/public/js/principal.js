@@ -10,8 +10,7 @@ let real_matrix = [];
 generateDataButton.addEventListener('click', () => { 
   const machines = document.getElementById('machines').value;
   const tasks = document.getElementById('tasks').value;
-  // Generamos un numero de operaciones aleatorio entre 1 y 5
-  const numberOfOperations = Math.floor(Math.random() * 5) + 1;
+  const numberOfOperations = Number(document.getElementById('operations-input').value);
 
   //Generamos la matriz de tardanza y la matriz de operaciones con el siguiente formato y de forma aleatoria:
   /* operations = [[1,3], [2,3], [3]]
@@ -86,7 +85,9 @@ startButton.addEventListener('click', () => {
       operations,
       lateness_matrix,
       machines: lateness_matrix.length,
-      jobs: operations.length
+      jobs: operations.length,
+      generations: document.getElementById('generations').value,
+      population: document.getElementById('population').value
     })
   })
     .then(res => res.json())
@@ -190,8 +191,8 @@ generateTimesButton.addEventListener('click', () => {
         // Eliminamos los espacios en blanco y las comillas y las comas
         operation = real_matrix[i][j].replace(/\'|\"|\,/g, '').trim();
       }
-      // si la operación diferente de 0 y no es vacía y no incluye ' 0'
-      if (operation !== '0' && operation !== '' && !operation.includes(' 0')) {
+      // si la operación diferente de 0 y no es vacía y no incluye ' 0' y que no incluya '' y que no incluya '0'
+      if (operation !== '0' && operation !== '' && !operation.includes(' 0') && !operation.includes('') && !operation.includes('0')) {
         console.log('Operation: ', operation)
         // Entonces es un arreglo con el formato [id, maquina, numero de operacion]
         const maquina = Number(operation[1].replace(/\'|\"|\,/g, '').trim());
@@ -203,8 +204,9 @@ generateTimesButton.addEventListener('click', () => {
         <tr>
           <td>Maquina ${operation[1]}</td>
           <td>${operation[0]}</td>
-          <td>${accumulatedTime}</td>
           <td>${lateness}</td>
+          <td>${accumulatedTime.toFixed(2)}</td>
+          <td>${(lateness+accumulatedTime).toFixed(2)}</td>
         </tr>`;
         // Sumamos el tiempo total
         accumulatedTime += lateness;

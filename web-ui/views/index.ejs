@@ -59,6 +59,8 @@
       <div class="col-md">
         <label for="tasks" class="form-label">Cantidad de tareas</label>
         <input type="number" id="tasks" class="form-control" value="3">
+        <label for="operations">Cantidad de operaciones</label>
+        <input type="number" class="form-control" value="3" id="operations-input">
         <!-- Matriz de operaciones -->
         <div class="row mt-3">
           <div class="col-md">
@@ -105,6 +107,16 @@
         <h2>Algoritmo génetico</h2>
       </div>
     </div>
+    <div class="row my-2">
+      <div class="col-md">
+        <label for="population">Tamaño de la población</label>
+        <input type="number" class="form-control" id="population" value="100">
+      </div>
+      <div class="col-md">
+        <label for="generations">Cantidad de generaciones</label>
+        <input type="number" class="form-control" id="generations" value="100">
+      </div>
+    </div>
     <div class="row">
       <div class="col-md">
         <textarea name="" id="result" cols="30" rows="10" class="form-control"></textarea>
@@ -145,6 +157,7 @@
           <thead>
             <th>Maquina</th>
             <th>Operacion</th>
+            <th>Tardanza</th>
             <th>Tiempo inicial</th>
             <th>Tiempo final</th>
           </thead>

@@ -23,8 +23,8 @@ app.get('/', (req, res) => {
 });
 
 app.post('/start', (req, res) => { 
-  const { operations, lateness_matrix, machines, jobs } = req.body;
-  pythonConnection.start(operations, lateness_matrix, machines, jobs)
+  const { operations, lateness_matrix, machines, jobs, generations, population } = req.body;
+  pythonConnection.start(operations, lateness_matrix, machines, jobs, generations, population)
     .then(result => {
       console.log(result);
       res.json({ result });

@@ -4,16 +4,17 @@ const actions = {}
 // Ruta del archivo Python que deseas ejecutar
 const archivoPython = './../plannerParameters.py';
 
-actions.start = async(operations, lateness_matrix, machines, jobs) => { 
+actions.start = async(operations, lateness_matrix, machines, jobs, generations, population) => { 
   // Parámetros de entrada
   const parametros = [
     operations,
     lateness_matrix,
-    100,// size_population
-    100,// generations
+    Number(generations),
+    Number(population),
     machines,
     jobs
   ]
+  console.log(parametros);
 
   // Serializa los parámetros a formato JSON
   const parametrosSerializados = JSON.stringify(parametros);
